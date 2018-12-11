@@ -23,38 +23,55 @@
 ### Árvore 2D
 
 Axioma: F
+
 Regras: F->F[LF][RF]
+
 Repetições: 5
+
 Ângulo: 25
 
 ### Árvore 3D
 Axioma: F
+
 Regras: F->F[LF][RF],L->U,R->D,U->L,D->R
+
 Repetições: 5
+
 Ângulo: 25
 
 ### Barnsley fern
 Axioma: X
+
 Regras: X->FR[[X]LX]LF[LFX]RX,F->FF
+
 Repetições: 4
+
 Ângulo: 25
 
 ### Triângulo de Sierpinski
 Axioma: FRGRG
+
 Regras: F->FRGLFLGRF,G->GG
+
 Repetições: 4
+
 Ângulo: 120
 
 Ou
 
-axioma: F
+Axioma: F
+
 Regras: F->GRFRG,G->FLGLF
+
 Repetições: 4
+
 Ângulo: 60
 
 ### Curva de Koch
-axioma: F
-Regras: F->FLFRFRFLF
-Repetições: 3
-Ângulo: 90
+Axioma: F
 
+Regras: F->FLFRFRFLF
+
+Repetições: 3
+
+Ângulo: 90
