@@ -3,24 +3,22 @@ from OpenGL.GLU  import *
 from OpenGL.GL   import *
 from math        import cos, sin, pi
 
-SavedX = 0
-SavedY = 0
-SavedZ = 0
-
-SavedVectorX = 0
-SavedVectorY = 0
-SavedVectorZ = 0
-
-currentX = 0
-currentY = 0
-currentZ = 0
-
-vectorX = 0
-vectorY = 0
-vectorZ = 0
-
-angleLR = 90
-angleUD = 90
+SavedX       = list()
+SavedY       = list()
+SavedZ       = list()
+SavedVectorX = list()
+SavedVectorY = list()
+SavedVectorZ = list()
+SavedAngleLR = list()
+SavedAngleUD = list()
+currentX     = 0
+currentY     = 0
+currentZ     = 0
+vectorX      = 0
+vectorY      = 0
+vectorZ      = 0
+angleLR      = 90
+angleUD      = 90
 
 def AddRules(rawRules):
     rules = {}
@@ -54,14 +52,6 @@ def LSystem(axiom, rules, recursion):
         display = aux
 
 def SetCoord():
-    global SavedX
-    global SavedY
-    global SavedZ
-    
-    global SavedVectorX
-    global SavedVectorY
-    global SavedVectorZ
-    
     global currentX
     global currentY
     global currentZ
@@ -72,14 +62,6 @@ def SetCoord():
 
     global angleLR
     global angleUD
-
-    SavedX = 0
-    SavedY = 0
-    SavedZ = 0
-    
-    SavedVectorX = 0
-    SavedVectorY = 0
-    SavedVectorZ = 0
     
     currentX = 0
     currentY = 0
@@ -89,8 +71,8 @@ def SetCoord():
     vectorY = 1
     vectorZ = 0
 
-    angleLR = 0
-    angleUD = 0
+    angleLR = 90
+    angleUD = 90
 
 def Draw(display):
     global SavedX
@@ -116,7 +98,7 @@ def Draw(display):
 
     # Iterates over the display string and draw what each char represents
     for letter in display:
-        if letter == 'F':    
+        if letter == 'F':
             glVertex3fv([currentX          , currentY          , currentZ])
             glVertex3fv([currentX + vectorX, currentY + vectorY, currentZ + vectorZ])
             currentX += vectorX
@@ -139,19 +121,23 @@ def Draw(display):
             vectorZ  = cos(angleUD*pi/180)
             vectorY  = sin(angleUD*pi/180)
         elif letter == '[':
-            SavedX       = currentX
-            SavedY       = currentY
-            SavedZ       = currentZ
-            SavedVectorX = vectorX
-            SavedVectorY = vectorY
-            SavedVectorZ = vectorZ
+            SavedX.append(currentX)
+            SavedY.append(currentY)
+            SavedZ.append(currentZ)
+            SavedVectorX.append(vectorX)
+            SavedVectorY.append(vectorY)
+            SavedVectorZ.append(vectorZ)
+            SavedAngleLR.append(angleLR)
+            SavedAngleUD.append(angleUD)
         elif letter == ']':
-            currentX = SavedX
-            currentY = SavedY
-            currentZ = SavedZ
-            vectorX  = SavedVectorX
-            vectorY  = SavedVectorY
-            vectorZ  = SavedVectorZ
+            currentX = SavedX.pop()
+            currentY = SavedY.pop()
+            currentZ = SavedZ.pop()
+            vectorX  = SavedVectorX.pop()
+            vectorY  = SavedVectorY.pop()
+            vectorZ  = SavedVectorZ.pop()
+            angleLR  = SavedAngleLR.pop()
+            angleUD  = SavedAngleUD.pop()
         else:
             continue
 
@@ -159,7 +145,7 @@ def Draw(display):
 
 def DisplayGL():
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-    #glRotatef(2,1,3,0)
+    glRotatef(2,1,3,0)
     LSystem(axiom, rules, recursion)
     glutSwapBuffers()
  
@@ -195,6 +181,6 @@ glEnable(GL_MULTISAMPLE)
 glEnable(GL_DEPTH_TEST)
 glClearColor(0.,0.,0.,1.)
 gluPerspective(120,800.0/600.0,0.1,50.0)
-glTranslatef(0.0,0.0,-5)
+glTranslatef(0.0,-5,-5)
 glutTimerFunc(50,timer,1)
 glutMainLoop()
